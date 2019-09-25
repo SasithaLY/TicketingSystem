@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,36 +9,38 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class UserController
- */
+import dao.UserDAO;
+import dao.UserDAOImpl;
+import model.User;
+
+
 public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+	UserDAO userDAO = null;
+
     public UserController() {
-        super();
-        // TODO Auto-generated constructor stub
+        userDAO = new UserDAOImpl();
+ 
+        
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-	 RequestDispatcher dispatcher =  request.getRequestDispatcher("/Register.jsp");
+		List<User> userList = userDAO.get();
+		
+		request.setAttribute("userList", userList);
+		
+		RequestDispatcher dispatcher =  request.getRequestDispatcher("/UsersList.jsp");
 	 
-	 dispatcher.forward(request, response);
+		dispatcher.forward(request, response);
 	 
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	
 		doGet(request, response);
 	}
 

@@ -14,21 +14,7 @@ public class User {
 	private int packageId;
 	private int accountId;
 	
-	public User(int userId, String username, String password, String firstName, String lastName, String address,
-			String dob, String nic, String createdDate, int packageId, int accountId) {
-		super();
-		this.userId = userId;
-		this.username = username;
-		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.address = address;
-		this.dob = dob;
-		this.nic = nic;
-		this.createdDate = createdDate;
-		this.packageId = packageId;
-		this.accountId = accountId;
-	}
+
 
 	public int getUserId() {
 		return userId;
@@ -118,6 +104,14 @@ public class User {
 		this.accountId = accountId;
 	}
 
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", address=" + address + ", dob=" + dob + ", nic=" + nic
+				+ ", createdDate=" + createdDate + ", packageId=" + packageId + ", accountId=" + accountId + "]";
+	}
+
+	
 	
 	
 }
