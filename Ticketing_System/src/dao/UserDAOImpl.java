@@ -1,8 +1,13 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +19,7 @@ public class UserDAOImpl implements UserDAO {
 	Connection connection = null;
 	Statement statement = null;
 	ResultSet resultset = null;
+	PreparedStatement preparedStatement = null;
 	
 	@Override
 	public List<User> get() {
@@ -27,10 +33,11 @@ public class UserDAOImpl implements UserDAO {
 			String sql = "SELECT * FROM user";
 			
 			connection = DBConnectionUtil.openConnection();
-			
+
 			statement = connection.createStatement();
 			
 			resultset = statement.executeQuery(sql);
+		
 			
 			while(resultset.next()) {
 				user = new User();
@@ -56,6 +63,25 @@ public class UserDAOImpl implements UserDAO {
 		}
 		
 		return list;
+	}
+
+	@Override
+	public boolean register(User u) {
+		
+		boolean flag = false;
+		
+		try {
+		
+			String sql = "INSERT INTO user(username, password, createdDate) values('"+u.getUsername()+"','"+u.getPassword()+"', CURDATE())";
+			connection = DBConnectionUtil.openConnection();
+			preparedStatement = connection.prepareStatement(sql); 
+			preparedStatement.executeUpdate();
+			flag = true;
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 
 }

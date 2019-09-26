@@ -7,4 +7,6 @@ import model.User;
 public interface UserDAO {
 
 	List<User> get();
+	
+	boolean register(User u);
 }

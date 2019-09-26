@@ -8,35 +8,48 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class RegisterController
- */
+import dao.UserDAO;
+import dao.UserDAOImpl;
+import model.User;
+
+
 public class RegisterController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+	UserDAO userDAO = null;
+
     public RegisterController() {
-        super();
-        // TODO Auto-generated constructor stub
+    	userDAO = new UserDAOImpl();
+    
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher =  request.getRequestDispatcher("/Register.jsp");
-		 
-		 dispatcher.forward(request, response);
+//		 RequestDispatcher dispatcher =  request.getRequestDispatcher("/Register.jsp");
+//		 
+//		 dispatcher.forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+
+		String username = request.getParameter("Username");
+		String password = request.getParameter("password");
+		String passwordRepeat = request.getParameter("password-repeat");
+		
+		User user = new User();
+		user.setUsername(username);
+		user.setPassword(password);
+		
+		if(userDAO.register(user)) {
+			request.setAttribute("message", "Successfully Registered!");
+			System.out.println("Success!");
+		}
+		 RequestDispatcher dispatcher =  request.getRequestDispatcher("/Register.jsp");
+		 
+		 dispatcher.forward(request, response);
+		
+		
+		
 	}
 
 }

@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -28,13 +29,15 @@ public class UserController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		
 		List<User> userList = userDAO.get();
 		
 		request.setAttribute("userList", userList);
 		
 		RequestDispatcher dispatcher =  request.getRequestDispatcher("/UsersList.jsp");
-	 
 		dispatcher.forward(request, response);
+	 
+		
 	 
 	}
 
