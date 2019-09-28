@@ -1,1 +1,1 @@
-<% response.sendRedirect("UserController?action=LIST"); %>
+<% response.sendRedirect("Home.jsp"); %>

@@ -59,14 +59,10 @@ public class UserController extends HttpServlet {
 				break;
 						
 			case "VIEW":
-				System.out.println(session.getAttribute("id"));
-				//request.setAttribute("id", session.getAttribute("id"));
 				viewProfile(request, response);
 				break;
 				
 			case "REGISTER":
-//				request.setAttribute("username", request.getParameter("username"));
-//				request.setAttribute("password", request.getParameter("password"));
 				register(request, response);
 				break;
 				
@@ -83,36 +79,6 @@ public class UserController extends HttpServlet {
 		String action = request.getParameter("action");
 		
 		HttpSession session = request.getSession();
-		
-//		if(action == null) {
-//			String id = request.getParameter("userId");
-//			String uname = request.getParameter("Username");
-//			String pwd = request.getParameter("password");
-//			String firstName = request.getParameter("firstName");
-//			String lastName = request.getParameter("lastName");
-//			String address = request.getParameter("address");
-//			String dob = request.getParameter("dob");
-//			String nic = request.getParameter("nic");
-//					
-//			User user = new User();
-//			user.setUsername(uname);
-//			user.setPassword(pwd);
-//			user.setUserId(Integer.parseInt(id));
-//			user.setFirstName(firstName);
-//			user.setLastName(lastName);
-//			user.setAddress(address);
-//			user.setDob(dob);
-//			user.setNic(nic);
-//			
-//			if(userDAO.update(user)) {
-//
-//				JOptionPane.showMessageDialog(null, "Successfully Updated!");
-//				viewProfile(request, response);
-//				
-//			}else {
-//				listUsers(request, response);
-//			}
-//		}
 		
 		switch(action) {
 		case "LIST":
@@ -140,9 +106,11 @@ public class UserController extends HttpServlet {
 			break;
 			
 		case "REGISTER":
-//			request.setAttribute("username", request.getParameter("username"));
-//			request.setAttribute("password", request.getParameter("password"));
 			register(request, response);
+			break;
+			
+		case "ADMIN":
+			addAdmin(request, response);
 			break;
 			
 		default:
@@ -347,5 +315,40 @@ public class UserController extends HttpServlet {
 		}else {
 			listUsers(request, response);
 		}
+	}
+	
+	public void addAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
+		String uname = request.getParameter("uname");
+		String pwd = request.getParameter("pwd");
+		String fname = request.getParameter("firstName");
+		String lname = request.getParameter("lastName");
+		String addr = request.getParameter("address");
+		String dob = request.getParameter("dob");
+		String nic = request.getParameter("nic");
+		//String passwordRepeat = request.getParameter("password-repeat");
+		
+		User user = new User();
+		user.setUsername(uname);
+		user.setPassword(pwd);
+		user.setFirstName(fname);
+		user.setLastName(lname);
+		user.setAddress(addr);
+		user.setDob(dob);
+		user.setNic(nic);
+		user.setType("admin");
+		
+		if(userDAO.addAdmin(user)) {
+			
+			JOptionPane.showMessageDialog(null, "Successfully added an Admin");
+			
+		}
+		request.setAttribute("username", uname);
+		request.setAttribute("password", pwd);
+		request.setAttribute("logType", "register");
+		//System.out.println("In AddAdmin = uname:"+request.getAttribute("username")+" pw: "+request.getAttribute("password")+" type: "+request.getAttribute("logType")+" ID: "+user.getUserId() );
+		//login(request, response);
+		listUsers(request, response);
 	}
 }

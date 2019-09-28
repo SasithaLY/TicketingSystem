@@ -18,5 +18,6 @@ public interface UserDAO {
 	
 	User login(String username);
 	
+	boolean addAdmin(User u);
 	
 }

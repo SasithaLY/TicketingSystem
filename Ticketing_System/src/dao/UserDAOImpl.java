@@ -77,12 +77,13 @@ public class UserDAOImpl implements UserDAO {
 			connection = DBConnectionUtil.openConnection();
 			preparedStatement = connection.prepareStatement(sql); 
 			preparedStatement.executeUpdate();
+			
 			flag = true;
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return false;
+		return flag;
 	}
 
 	@Override
@@ -198,6 +199,25 @@ public class UserDAOImpl implements UserDAO {
 		
 		
 		return user;
+	}
+
+	@Override
+	public boolean addAdmin(User u) {
+		boolean flag = false;
+		
+		try {
+		
+			String sql = "INSERT INTO user(username, password, firstName, lastName, address, dob, nic, createdDate, type) values('"+u.getUsername()+"','"+u.getPassword()+"', '"+u.getFirstName()+"', '"+u.getLastName()+"', "
+					+ "'"+u.getAddress()+"', '"+u.getDob()+"', '"+u.getNic()+"', CURDATE(), '"+u.getType()+"')";
+			connection = DBConnectionUtil.openConnection();
+			preparedStatement = connection.prepareStatement(sql); 
+			preparedStatement.executeUpdate();
+			flag = true;
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return flag;
 	}
 	
 

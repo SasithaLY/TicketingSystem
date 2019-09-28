@@ -17,12 +17,14 @@
 <div style="padding-top:20px">
 
 </div>
+
 <%
 		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");
 		if((session.getAttribute("username")==null))
 		{%>
 			<div >
-			<div class="container-fluid" align="right" style="bottom : 10px; right: 20px">
+			
+			<div class="container-fluid" align="right" style="bottom : 10px; right: 20px;">
 				
 				<a href="Login.jsp" class="container"><button class="btn btn-primary" >Login</button></a>
 				<a href="Register.jsp"><button class="btn btn-primary">Sign Up</button></a>
@@ -34,7 +36,7 @@
 		else if((session.getAttribute("type").equals("admin"))){
 	%>
 	<div >
-		
+				
 			<div class="container-fluid" align="right" style="bottom : 10px; right: 20px">
 			Welcome! <%=request.getSession().getAttribute("username") %><a href="${pageContext.request.contextPath}/UserController?action=LOGOUT" style="padding: 20px"><button class="btn btn-danger">Logout</button></a>
 			<a href="${pageContext.request.contextPath}/AdminPanel.jsp" style="padding: 20px"><button class="btn btn-primary">Admin Panel</button></a>
@@ -45,7 +47,6 @@
 		}else{
 	%>
 			<div >
-				
 					<div class="container-fluid" align="right" style="bottom : 10px; right: 20px">
 					Welcome! <%=request.getSession().getAttribute("username") %><a href="${pageContext.request.contextPath}/UserController?action=LOGOUT" style="padding: 20px"><button class="btn btn-danger">Logout</button></a>
 					</div>
@@ -54,13 +55,14 @@
 			<%
 		}
 	%>
+	
 <div style="padding-top:20px">
 
 </div>
 
 <div style="padding-top:0px">
 <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-  <a class="navbar-brand" href="${pageContext.request.contextPath}/Home.jsp">Navbar</a>
+  <a class="navbar-brand" href="${pageContext.request.contextPath}/Home.jsp"><img class="img-responsive" style="" src="assets/img/logo.png" alt="Logo" width="auto" height="auto"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
   </button>

@@ -58,5 +58,10 @@
 			</table>
 		</div>
 	</div>
+	<div class="container-fluid" style="float:right">
+		
+			<a href="${pageContext.request.contextPath}/AddAdmin.jsp"><button class="btn btn-primary" style="float:right">Add New Admin</button></a>
+	
+	</div>
 </body>
 </html>
