@@ -2,6 +2,8 @@
     pageEncoding="ISO-8859-1"%>
     
     <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+    
+    <%@ include file="/Header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +15,8 @@
 </head>
 
 <body>
-	<div class="container-fluid">
+<div class="container"><center><h1><b>Manage Users</b></h1></center></div>
+	<div class="container-fluid" style="padding-top:50px">
 		<div class="table-responsive">
 			<table border="1" class="table table-striped table-bordered">
 				<tr class="thead-dark">
@@ -27,7 +30,9 @@
 					<th>NIC</th>
 					<th>Created Date</th>
 					<th>Package</th>
-					<th>Account</th>
+					<th>Account ID</th>
+					<th>Type</th>
+					<th>Actions</th>
 				</tr>
 				<c:forEach  items = "${userList}" var = "user">
 					<tr>
@@ -42,6 +47,12 @@
 						<td>${user.createdDate}</td>
 						<td>${user.packageId}</td>
 						<td>${user.accountId}</td>
+						<td>${user.type}</td>
+						<td>
+							<!-- <a href="${pageContext.request.contextPath}/UserController?action=EDIT&id=${user.userId}">EDIT</a>  -->
+							
+							<a href="${pageContext.request.contextPath}/UserController?action=REMOVE&id=${user.userId}"><button class="btn btn-danger">REMOVE</button></a>
+						</td>
 					</tr>
 				</c:forEach>
 			</table>

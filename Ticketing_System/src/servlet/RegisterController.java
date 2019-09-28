@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.swing.JOptionPane;
 
 import dao.UserDAO;
 import dao.UserDAOImpl;
@@ -32,21 +34,34 @@ public class RegisterController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String username = request.getParameter("Username");
-		String password = request.getParameter("password");
+		response.setContentType("text/html");
+		
+		String uname = request.getParameter("Username");
+		String pwd = request.getParameter("password");
 		String passwordRepeat = request.getParameter("password-repeat");
 		
 		User user = new User();
-		user.setUsername(username);
-		user.setPassword(password);
+		user.setUsername(uname);
+		user.setPassword(pwd);
 		
 		if(userDAO.register(user)) {
-			request.setAttribute("message", "Successfully Registered!");
-			System.out.println("Success!");
+			
+			HttpSession session = request.getSession();
+			
+			session.setAttribute("username", uname);
+			session.setAttribute("password", pwd);
+			
+			//JOptionPane.showMessageDialog(null, "Successfully Registered!");
+			
 		}
-		 RequestDispatcher dispatcher =  request.getRequestDispatcher("/Register.jsp");
-		 
-		 dispatcher.forward(request, response);
+		HttpSession session = request.getSession();
+		
+		session.setAttribute("username", uname);
+		session.setAttribute("password", pwd);
+		
+		RequestDispatcher dispatcher =  request.getRequestDispatcher("/EditProfile.jsp");
+		dispatcher.forward(request, response);
+	
 		
 		
 		

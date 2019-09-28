@@ -53,6 +53,7 @@ public class UserDAOImpl implements UserDAO {
 				user.setCreatedDate(resultset.getString("createdDate"));
 				user.setAccountId(resultset.getInt("accountId"));
 				user.setPackageId(resultset.getInt("packageId"));
+				user.setType(resultset.getString("type"));
 				
 				list.add(user);
 				
@@ -72,7 +73,7 @@ public class UserDAOImpl implements UserDAO {
 		
 		try {
 		
-			String sql = "INSERT INTO user(username, password, createdDate) values('"+u.getUsername()+"','"+u.getPassword()+"', CURDATE())";
+			String sql = "INSERT INTO user(username, password, createdDate, type) values('"+u.getUsername()+"','"+u.getPassword()+"', CURDATE(), '"+u.getType()+"')";
 			connection = DBConnectionUtil.openConnection();
 			preparedStatement = connection.prepareStatement(sql); 
 			preparedStatement.executeUpdate();
@@ -83,5 +84,121 @@ public class UserDAOImpl implements UserDAO {
 		
 		return false;
 	}
+
+	@Override
+	public User get(int id) {
+	
+		User user = null;
+		
+		try {
+			user = new User();
+			
+			String sql = "SELECT * FROM user WHERE userId ="+id;
+			connection = DBConnectionUtil.openConnection();
+			statement = connection.createStatement();
+			resultset = statement.executeQuery(sql);
+			
+			while(resultset.next()) {
+				user.setUserId(resultset.getInt("userId"));
+				user.setUsername(resultset.getString("username"));
+				user.setPassword(resultset.getString("password"));
+				user.setFirstName(resultset.getString("firstName"));
+				user.setLastName(resultset.getString("lastName"));
+				user.setUsername(resultset.getString("username"));
+				user.setAddress(resultset.getString("address"));
+				user.setDob(resultset.getString("dob"));
+				user.setNic(resultset.getString("nic"));
+				user.setCreatedDate(resultset.getString("createdDate"));
+				user.setPackageId(resultset.getInt("packageId"));
+				user.setAccountId(resultset.getInt("accountId"));
+				user.setType(resultset.getString("type"));
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return user;
+	}
+
+	@Override
+	public boolean update(User u) {
+		
+		boolean flag = false;
+		
+		try {
+			
+			String sql = "UPDATE user SET firstName='"+u.getFirstName()+"', lastName='"+u.getLastName()+"', address='"+u.getAddress()+"', dob='"+u.getDob()+"', nic='"+u.getNic()+"' WHERE userId="+u.getUserId();
+			connection = DBConnectionUtil.openConnection();
+			preparedStatement = connection.prepareStatement(sql); 
+			preparedStatement.executeUpdate();
+			flag = true;
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return flag;
+	}
+
+	@Override
+	public boolean remove(int id) {
+		
+		boolean flag = false;
+		
+		try {
+			
+			String sql = "DELETE FROM user WHERE userId="+id;
+			connection = DBConnectionUtil.openConnection();
+			preparedStatement = connection.prepareStatement(sql); 
+			preparedStatement.executeUpdate();
+			flag = true;
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return flag;
+	}
+
+	@Override
+	public User login(String username) {
+		User user = null;
+		
+		try {
+			
+			String sql = "SELECT * FROM user WHERE username='"+username+"'";
+			
+			connection = DBConnectionUtil.openConnection();
+
+			statement = connection.createStatement();
+			
+			resultset = statement.executeQuery(sql);
+		
+			
+			while(resultset.next()) {
+				user = new User();
+				
+				user.setUserId(resultset.getInt("userId"));
+				user.setUsername(resultset.getString("username"));
+				user.setPassword(resultset.getString("password"));
+				user.setFirstName(resultset.getString("firstName"));
+				user.setLastName(resultset.getString("lastName"));
+				user.setAddress(resultset.getString("address"));
+				user.setDob(resultset.getString("dob"));
+				user.setNic(resultset.getString("nic"));
+				user.setCreatedDate(resultset.getString("createdDate"));
+				user.setAccountId(resultset.getInt("accountId"));
+				user.setPackageId(resultset.getInt("packageId"));
+				user.setType(resultset.getString("type"));
+				
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return user;
+	}
+	
 
 }

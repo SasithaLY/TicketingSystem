@@ -13,6 +13,7 @@ public class User {
 	private String createdDate;
 	private int packageId;
 	private int accountId;
+	private String type;
 	
 
 
@@ -103,12 +104,24 @@ public class User {
 	public void setAccountId(int accountId) {
 		this.accountId = accountId;
 	}
+	
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	
+	
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", address=" + address + ", dob=" + dob + ", nic=" + nic
-				+ ", createdDate=" + createdDate + ", packageId=" + packageId + ", accountId=" + accountId + "]";
+				+ ", createdDate=" + createdDate + ", packageId=" + packageId + ", accountId=" + accountId + ", type="
+				+ type + "]";
 	}
 
 	
