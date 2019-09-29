@@ -19,7 +19,7 @@
 		%>
 		<div class="container"><center><h1><b>ADMIN PANEL</b></h1></center></div>
 <div class="container" style="padding-top:50px">
-	<a href=""><button class="btn btn-primary shadow-sm" style="background-color: rgb(29,120,255); padding: 6% 10%; font-size:200%">View Users</button></a>
+	<a href="${pageContext.request.contextPath}/UserController?action=LIST"><button class="btn btn-primary shadow-sm" style="background-color: rgb(29,120,255); padding: 6% 10%; font-size:200%">View Users</button></a>
 
 </div>
 </body>

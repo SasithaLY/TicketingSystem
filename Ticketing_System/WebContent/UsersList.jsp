@@ -15,6 +15,14 @@
 </head>
 
 <body>
+<%
+		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");
+		if((!session.getAttribute("type").equals("admin")))
+		{ 
+			session.invalidate();
+			response.sendRedirect("Login.jsp");
+		}
+		%>
 <div class="container"><center><h1><b>Manage Users</b></h1></center></div>
 	<div class="container-fluid" style="padding-top:50px">
 		<div class="table-responsive">
