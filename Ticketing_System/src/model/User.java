@@ -16,6 +16,8 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.encoder.ByteMatrix;
 
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -326,12 +328,94 @@ public class User {
 	}
 	
 	
-	public String encrypt(String text) {
-		String input = text;
+	public boolean validateCreditCard(String creditCardNo, String cvv, String expireDate) {
 		
 		
+		if(creditCardNo.length() != 16) {
+			return false;
+		}else if(cvv.length() != 3) {
+			return false;
+		}else if(expireDate.matches("(?:0[1-9]|1[0-2])/[0-9]{2}")) {
+			return false;
+		}else {
+			return true;
+		}
 		
-		return input;
+	}
+	
+	
+	public boolean requestLoan(int userId) {
+		boolean flag = false;
+		try {
+			
+			double amount = 0;
+			
+			String sql = "SELECT loanAmount FROM package p WHERE p.packageId=(SELECT packageId FROM User u WHERE u.userId='"+userId+"')";
+			
+			connection = DBConnectionUtil.openConnection();
+
+			statement = connection.createStatement();
+			
+			resultset = statement.executeQuery(sql);
+			
+			while(resultset.next()){
+				amount = resultset.getDouble("loanAmount");
+			}
+			
+			if(amount > 0) {
+				
+				String sql1 = "UPDATE user SET accountBalance=accountBalance+'"+amount+"', loanAmount='"+amount+"'";
+				connection = DBConnectionUtil.openConnection();
+				preparedStatement = connection.prepareStatement(sql1); 
+				preparedStatement.executeUpdate();
+				
+				flag = true;
+			}
+			
+			
+		}catch(Exception e) {
+			
+		}
+		
+		
+		return flag;
+	}
+	
+	public boolean update(User u) {
+		
+		boolean flag = false;
+		
+		try {
+			
+			String sql = "UPDATE user SET firstName='"+u.getFirstName()+"', lastName='"+u.getLastName()+"', address='"+u.getAddress()+"', dob='"+u.getDob()+"', nic='"+u.getNic()+"' WHERE userId="+u.getUserId();
+			connection = DBConnectionUtil.openConnection();
+			preparedStatement = connection.prepareStatement(sql); 
+			preparedStatement.executeUpdate();
+			flag = true;
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return flag;
+	}
+	
+	public boolean remove(int id) {
+		
+		boolean flag = false;
+		
+		try {
+			
+			String sql = "DELETE FROM user WHERE userId="+id;
+			connection = DBConnectionUtil.openConnection();
+			preparedStatement = connection.prepareStatement(sql); 
+			preparedStatement.executeUpdate();
+			flag = true;
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return flag;
 	}
 	
 }

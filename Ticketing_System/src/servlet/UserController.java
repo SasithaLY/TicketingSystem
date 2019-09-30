@@ -89,51 +89,51 @@ public class UserController extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		switch(action) {
-		case "LIST":
-			listUsers(request, response);
-			break;
+			case "LIST":
+				listUsers(request, response);
+				break;
+				
+			case "EDIT":
+				getSingleUser(request, response);
+				break;
+				
+			case "REMOVE":
+				removeUser(request, response);
+				break;
 			
-		case "EDIT":
-			getSingleUser(request, response);
-			break;
+			case "LOGOUT":
+				logout(request, response);
+				break;
+				
+			case "LOGIN":
+				login(request, response);
+				break;
+				
+			case "UPDATE":
+				update(request, response);
+				break;
+				
+			case "REGISTER":
+				register(request, response);
+				break;
+				
+			case "ADMIN":
+				addAdmin(request, response);
+				break;
+				
+			case "SaveCard":
+				saveCreditCard(request, response);
+				break;
+				
+			case "balance":
+				accountBalance(request, response);
+				break;
+				
+			default:
+				listUsers(request, response);
+				break;
 			
-		case "REMOVE":
-			removeUser(request, response);
-			break;
-		
-		case "LOGOUT":
-			logout(request, response);
-			break;
-			
-		case "LOGIN":
-			login(request, response);
-			break;
-			
-		case "UPDATE":
-			update(request, response);
-			break;
-			
-		case "REGISTER":
-			register(request, response);
-			break;
-			
-		case "ADMIN":
-			addAdmin(request, response);
-			break;
-			
-		case "SaveCard":
-			saveCreditCard(request, response);
-			break;
-			
-		case "balance":
-			accountBalance(request, response);
-			break;
-			
-		default:
-			listUsers(request, response);
-			break;
-			
-	}
+		}
 		
 	}
 

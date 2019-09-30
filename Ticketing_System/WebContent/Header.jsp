@@ -28,13 +28,13 @@
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="#"></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="#"></a>
       </li>
       <li class="nav-item" >
-        <a class="nav-link" href="${pageContext.request.contextPath}/UserController?action=VIEW">View Profile</a>
+        <a class="nav-link" href=""></a>
       </li>
       
       <div style="float:right" >

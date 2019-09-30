@@ -22,5 +22,10 @@
 	<a href="${pageContext.request.contextPath}/UserController?action=LIST"><button class="btn btn-primary shadow-sm" style="background-color: rgb(29,120,255); padding: 6% 10%; font-size:200%">View Users</button></a>
 
 </div>
+
+<div class="container" style="padding-top:50px">
+	<a href="${pageContext.request.contextPath}/packageController?action=LIST"><button class="btn btn-primary shadow-sm" style="background-color: rgb(29,120,255); padding: 6% 10%; font-size:200%">View Packages</button></a>
+
+</div>
 </body>
 </html>

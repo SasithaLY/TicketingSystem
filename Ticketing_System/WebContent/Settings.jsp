@@ -11,7 +11,7 @@
 
 	<div class="container" style="">
 		
-		<div style="padding-top:10% ; text-align:center">
+		<div style="padding-top: ; text-align:center">
 			<div style="padding-top:10% ; text-align:center">
 			
 				<a href="${pageContext.request.contextPath}/UserController?action=balance"><button style="margin: 0 auto; width:60%; height:70px" class="btn btn-primary">Check Account balance</button></a>
