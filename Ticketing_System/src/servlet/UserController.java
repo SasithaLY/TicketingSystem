@@ -70,6 +70,10 @@ public class UserController extends HttpServlet {
 				register(request, response);
 				break;
 				
+			case "balance":
+				accountBalance(request, response);
+				break;
+				
 			default:
 				listUsers(request, response);
 				break;
@@ -115,6 +119,14 @@ public class UserController extends HttpServlet {
 			
 		case "ADMIN":
 			addAdmin(request, response);
+			break;
+			
+		case "SaveCard":
+			saveCreditCard(request, response);
+			break;
+			
+		case "balance":
+			accountBalance(request, response);
 			break;
 			
 		default:
@@ -234,7 +246,8 @@ public class UserController extends HttpServlet {
 				    	dispatcher =  request.getRequestDispatcher("/AdminPanel.jsp");
 						dispatcher.forward(request, response);
 				    }else {
-				    	viewProfile(request, response);
+				    	dispatcher =  request.getRequestDispatcher("/ProfileMain.jsp");
+						dispatcher.forward(request, response);
 				    }
 					
 				
@@ -313,8 +326,18 @@ public class UserController extends HttpServlet {
 		
 		if(userDAO.update(user)) {
 
-			JOptionPane.showMessageDialog(null, "Successfully Updated!");
-			viewProfile(request, response);
+			PrintWriter out = response.getWriter();
+			out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
+			out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
+			out.println("<script>");
+			out.println("$(document).ready(function(){");
+			out.println("swal ( 'Account Updated' ,  'successfully !' ,  'success' );");
+			out.println("});");
+			out.println("</script>");
+			
+			RequestDispatcher rd = request.getRequestDispatcher("ProfileMain.jsp");
+			rd.include(request, response);
+			
 			
 		}else {
 			listUsers(request, response);
@@ -322,7 +345,6 @@ public class UserController extends HttpServlet {
 	}
 	
 	public void addAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 
 		String uname = request.getParameter("uname");
 		String pwd = request.getParameter("pwd");
@@ -354,5 +376,75 @@ public class UserController extends HttpServlet {
 		//System.out.println("In AddAdmin = uname:"+request.getAttribute("username")+" pw: "+request.getAttribute("password")+" type: "+request.getAttribute("logType")+" ID: "+user.getUserId() );
 		//login(request, response);
 		listUsers(request, response);
+	}
+	
+	public void saveCreditCard(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		HttpSession session = request.getSession();
+		int userid = Integer.parseInt(session.getAttribute("id").toString());
+		String cardNo = request.getParameter("cardNo");
+		String expireDate = request.getParameter("expireDate");
+		
+		User user = new User();
+		
+		boolean success = user.addCreditCard(cardNo, expireDate, userid);
+		
+		if(success) {
+			
+			PrintWriter out = response.getWriter();
+			out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
+			out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
+			out.println("<script>");
+			out.println("$(document).ready(function(){");
+			out.println("swal ( 'Saving Credit Card' ,  'successfull !' ,  'success' );");
+			out.println("});");
+			out.println("</script>");
+			
+			RequestDispatcher rd = request.getRequestDispatcher("PaymentSettings.jsp");
+			rd.include(request, response);
+			
+		}else {
+			PrintWriter out = response.getWriter();
+			out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
+			out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
+			out.println("<script>");
+			out.println("$(document).ready(function(){");
+			out.println("swal ( 'Saving Credit Card' ,  'Failed !' ,  'error' );");
+			out.println("});");
+			out.println("</script>");
+			
+			RequestDispatcher rd = request.getRequestDispatcher("PaymentSettings.jsp");
+			rd.include(request, response);
+		}
+		
+		
+		
+
+	}
+	
+	public void accountBalance(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		HttpSession session = request.getSession();
+		int userid = Integer.parseInt(session.getAttribute("id").toString());
+	
+		User user = new User();
+		
+		double balance = user.checkAccountBalance(userid);
+
+		String message = "swal ( 'Account Balance' ,  '"+String.valueOf(balance)+"' ,  'success' );";
+		PrintWriter out = response.getWriter();
+		out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
+		out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
+		out.println("<script>");
+		out.println("$(document).ready(function(){");
+		out.println(message);
+		out.println("});");
+		out.println("</script>");
+		
+		RequestDispatcher rd = request.getRequestDispatcher("Settings.jsp");
+		rd.include(request, response);
+		
+	
+
 	}
 }

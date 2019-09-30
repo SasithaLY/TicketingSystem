@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<div class="container">
+<div class="container" style="width:60%">
   <br>
   <h2>Profile</h2>
   <br>
@@ -65,7 +65,10 @@
     <button type="submit" class="btn btn-primary">Update Profile</button>
     
   </form>
+    
   </div>
+  
 </div>
+
 </body>
 </html>
