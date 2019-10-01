@@ -16,7 +16,7 @@ public class TravelPackage {
 	Statement statement = null;
 	ResultSet resultset = null;
 	PreparedStatement preparedStatement = null;
-
+ 
 	private int packageId;
 	private String packageType;
 	private int duration;
@@ -153,7 +153,7 @@ public class TravelPackage {
 				pk = new TravelPackage();
 				
 				pk.setPackageId(resultset.getInt("packageId"));
-				pk.setPackageType(resultset.getString("packageType"));
+				pk.setPackageType(resultset.getString("packageType")); 
 				pk.setDuration(resultset.getInt("duration"));
 				pk.setLoanAmount(resultset.getDouble("loanAmount"));
 				pk.setPackagePrice(resultset.getDouble("packagePrice"));
@@ -186,7 +186,7 @@ public class TravelPackage {
 		}catch(Exception e) {
 			
 		}
-		
+		 
 		return flag;
 	}
 	

@@ -35,6 +35,7 @@ public class User {
 	ResultSet resultset = null;
 	PreparedStatement preparedStatement = null;
 	
+	//attributes
 	private int userId;
 	private String username;
 	private String password;
@@ -44,16 +45,18 @@ public class User {
 	private String dob;
 	private String nic;
 	private String createdDate;
-	private int packageId;
+	private int packageId; 
 	private int accountId;
 	private String type;
 	private String status;
 	private double accountBalance;
 	
+	//default constructor
 	public User() {
-		super();
+		
 	}
 
+	//getters and setters
 	public int getUserId() {
 		return userId;
 	}
@@ -178,6 +181,7 @@ public class User {
 	}
 
 	
+	//Method for creating an account (Register function)
 	public boolean createAccount(User u) {
 		boolean flag = false;
 		
@@ -197,6 +201,7 @@ public class User {
 	}
 	
 	
+	//method for login
 	public User login(String username, String password) {
 		User user = null;
 		
@@ -240,6 +245,7 @@ public class User {
 	}
 	
 
+	//method to generate QR Code
 	public byte[] createQRC(String text, int width, int height) throws WriterException, IOException {
 	    QRCodeWriter qrCodeWriter = new QRCodeWriter();
 	    BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
@@ -250,6 +256,7 @@ public class User {
 	    return pngData;
 	}
 	
+	//method to check available account balance
 	public double checkAccountBalance(int userId) {
 		
 		double balance = 0;
@@ -279,41 +286,9 @@ public class User {
 	
 	public boolean addCreditCard(String creditNo, String expireDate, int userId) {
 		boolean flag = false;
-		
-//		String encrytedNumber;
-//		byte[] input;
-//		byte[] keyBytes = "12345678".getBytes();
-//		byte[] ivBytes =  "input123".getBytes();
-//		
-//		SecretKeySpec key = new SecretKeySpec(keyBytes, "DES");
-//		IvParameterSpec ivSpec = new IvParameterSpec(ivBytes);
-//		Cipher cipher;
-//		byte[] cipherText;
-//		int ctLength;
-		
+				
 		try {
-			
-			
-//			Security.addProvider(new BouncyCastleJsseProvider());
-//			
-//			input = creditNo.getBytes();
-//			SecretKeySpec nkey = new SecretKeySpec(keyBytes, "DES");
-//			IvParameterSpec nivSpec = new IvParameterSpec(ivBytes);
-//			
-//			cipher = Cipher.getInstance("DES/CTR/NoPadding", "BC");
-//			
-//			cipher.init(Cipher.ENCRYPT_MODE, nkey, nivSpec);
-//			
-//			cipherText = new byte[cipher.getOutputSize(input.length)];
-//			
-//			ctLength = cipher.update(input, 0, input.length, cipherText, 0);
-//			
-//			ctLength += cipher.doFinal(cipherText, ctLength);
-//			
-//			encrytedNumber = String.valueOf(cipherText);
-//			
-//			System.out.println("Encrypted No: "+encrytedNumber);
-			
+
 			String sql = "INSERT INTO creditcards(creditCardNo, expireDate, userId) values('"+creditNo+"','"+expireDate+"','"+userId+"')";
 			connection = DBConnectionUtil.openConnection();
 			preparedStatement = connection.prepareStatement(sql); 
@@ -341,37 +316,51 @@ public class User {
 			return true;
 		}
 		
-	}
+	} 
 	
 	
 	public boolean requestLoan(int userId) {
 		boolean flag = false;
 		try {
-			
-			double amount = 0;
-			
-			String sql = "SELECT loanAmount FROM package p WHERE p.packageId=(SELECT packageId FROM User u WHERE u.userId='"+userId+"')";
-			
 			connection = DBConnectionUtil.openConnection();
 
 			statement = connection.createStatement();
 			
-			resultset = statement.executeQuery(sql);
+			double amount = 0;
+			double loanAmount = 0;
+			
+			String sql1 = "SELECT loanAmount FROM user u WHERE u.userId='"+userId+"')";
+			
+			resultset = statement.executeQuery(sql1);
 			
 			while(resultset.next()){
-				amount = resultset.getDouble("loanAmount");
+				loanAmount = resultset.getDouble("loanAmount");
 			}
 			
-			if(amount > 0) {
+			if(loanAmount > 0) {
+				return false;
+			}else {
+				String sql = "SELECT loanAmount FROM package p WHERE p.packageId=(SELECT packageId FROM User u WHERE u.userId='"+userId+"')";
 				
-				String sql1 = "UPDATE user SET accountBalance=accountBalance+'"+amount+"', loanAmount='"+amount+"'";
-				connection = DBConnectionUtil.openConnection();
-				preparedStatement = connection.prepareStatement(sql1); 
-				preparedStatement.executeUpdate();
+				resultset = statement.executeQuery(sql);
 				
-				flag = true;
+				while(resultset.next()){
+					amount = resultset.getDouble("loanAmount");
+				}
+				
+				if(amount > 0) {
+					
+					String sql2 = "UPDATE user SET accountBalance=accountBalance+'"+amount+"', loanAmount='"+amount+"'";
+					
+					preparedStatement = connection.prepareStatement(sql2); 
+					preparedStatement.executeUpdate();
+					
+					flag = true;
+				}else {
+					flag = false;
+				}
 			}
-			
+		
 			
 		}catch(Exception e) {
 			

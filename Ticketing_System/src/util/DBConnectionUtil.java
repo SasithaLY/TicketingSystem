@@ -13,8 +13,7 @@ public class DBConnectionUtil {
 	private static Connection connection = null;
 	
 	
-	//get database connection
-	
+	//get database connection 	
 	public static Connection openConnection() {
 		
 		if(connection != null) {

@@ -36,7 +36,7 @@ public class UserController extends HttpServlet {
 	String action = request.getParameter("action");
 	
 	HttpSession session = request.getSession();
-		
+		 
 		if(action == null) {
 			//action = "LIST";
 			response.sendRedirect("/index.jsp");

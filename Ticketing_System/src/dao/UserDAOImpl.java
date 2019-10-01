@@ -27,7 +27,7 @@ public class UserDAOImpl implements UserDAO {
 		List<User> list = null;
 		User user = null;
 		
-		try {
+		try { 
 			list = new ArrayList<User>();
 			
 			String sql = "SELECT * FROM user";
