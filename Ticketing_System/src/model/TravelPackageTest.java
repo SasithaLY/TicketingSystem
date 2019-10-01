@@ -10,7 +10,7 @@ class TravelPackageTest {
 
 	TravelPackage pack;
 	
-	@Test
+	@Test 
 	void activatePackageTest1() {
 		pack = new TravelPackage();
 		assertEquals(true, pack.activatePackage(77, 2));

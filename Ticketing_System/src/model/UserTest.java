@@ -2,12 +2,16 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
+import com.google.zxing.WriterException;
+
 class UserTest {
 
-	User u;
+	User u; 
 	
 
 	
@@ -42,10 +46,16 @@ class UserTest {
 		u = new User();
 		assertEquals(true, u.requestLoan(1));
 	}
-	
+	 
 	@Test
 	void requestLoanTest2() {
 		u = new User();
 		assertEquals(false, u.requestLoan(2));
+	}
+	
+	@Test
+	void createQRCTest() throws WriterException, IOException {
+		u = new User();
+		assertEquals(null, u.createQRC("test", 500, 500));
 	}
 }

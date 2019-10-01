@@ -35,7 +35,7 @@ public class User {
 	ResultSet resultset = null;
 	PreparedStatement preparedStatement = null;
 	
-	//attributes
+	//attributes 
 	private int userId;
 	private String username;
 	private String password;
